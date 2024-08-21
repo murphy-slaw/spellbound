@@ -3,6 +3,7 @@ package net.tigereye.spellbound.enchantments.fortune;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.*;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
@@ -10,6 +11,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.tigereye.modifydropsapi.api.GenerateLootCallbackAddLoot;
 import net.tigereye.spellbound.Spellbound;
 import net.tigereye.spellbound.blocks.entity.CrateBlockEntity;
+import net.tigereye.spellbound.data.SunkenTreasure.SunkenTreasureManager;
 import net.tigereye.spellbound.enchantments.SBEnchantment;
 import net.tigereye.spellbound.registration.SBEnchantments;
 import net.tigereye.spellbound.registration.SBItems;
@@ -50,8 +52,10 @@ public class SunkenTreasureEnchantment extends SBEnchantment {
                     int level = EnchantmentHelper.getLevel(SBEnchantments.SUNKEN_TREASURE, tool);
                     if(lootContext.getRandom().nextFloat() < (level * Spellbound.config.sunkenTreasure.CRATE_CHANCE_PER_LEVEL / 2.0)){ //The odds are halved as a workaround to a bug where fishing (and only fishing) procs modify drops API twice
                         ItemStack crate = new ItemStack(SBItems.CRATE);
-                        NbtCompound nbt = crate.getOrCreateNbt();
-                        nbt.putString(CrateBlockEntity.LOOT_DIMENSION_KEY,lootContext.getWorld().getDimensionKey().getValue().toString());
+                        NbtCompound blockEntityTag = new NbtCompound();
+                        blockEntityTag.putString(CrateBlockEntity.LOOT_DIMENSION_KEY,lootContext.getWorld().getDimensionKey().getValue().toString());
+                        blockEntityTag.putInt(CrateBlockEntity.LOOT_QUALITY_KEY, SunkenTreasureManager.getWeightedRandomQuality(lootContext.getRandom(),lootContext.getLuck()));
+                        BlockItem.setBlockEntityNbt(crate,SBItems.CRATE_BLOCK_ENTITY,blockEntityTag);
                         loot.add(crate);
                     }
                 }

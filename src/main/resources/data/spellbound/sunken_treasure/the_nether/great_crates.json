@@ -1,0 +1,13 @@
+{
+    "lootTables": [
+        "minecraft:chests/bastion_other",
+        "minecraft:chests/bastion_hoglin_stable",
+        "minecraft:chests/bastion_hoglin_stable"
+    ],
+    "quality": 3,
+    "weight": 6,
+    "dimensionList": [
+        "minecraft:the_nether"
+    ],
+    "isWhiteList": true
+}

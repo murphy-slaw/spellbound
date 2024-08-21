@@ -1,0 +1,12 @@
+{
+    "lootTables": [
+        "minecraft:chests/bastion_bridge",
+        "minecraft:chests/nether_bridge"
+    ],
+    "quality": 2,
+    "weight": 6,
+    "dimensionList": [
+        "minecraft:the_nether"
+    ],
+    "isWhiteList": true
+}

@@ -23,27 +23,27 @@ import org.jetbrains.annotations.Nullable;
 
 public class CrateBlockEntity extends BlockEntity {
     public static final String LOOT_DIMENSION_KEY = "LootDimension";
+    public static final String LOOT_QUALITY_KEY = "LootQuality";
     Identifier dimension;
+    int quality;
 
-    public CrateBlockEntity(Identifier dimension, BlockPos blockPos, BlockState blockState) {
+    public CrateBlockEntity(Identifier dimension, int quality, BlockPos blockPos, BlockState blockState) {
         super(SBItems.CRATE_BLOCK_ENTITY, blockPos, blockState);
         this.dimension = dimension;
+        this.quality = quality;
     }
 
     public CrateBlockEntity(BlockPos blockPos, BlockState blockState) {
-        this(null, blockPos, blockState);
+        this(null, 0, blockPos, blockState);
     }
 
     public void spawnLoot(World world, BlockPos pos, @Nullable PlayerEntity player) {
         if (this.world != null && this.world.getServer() != null) {
-            float luck = 0;
             LootContextParameterSet.Builder builder = new LootContextParameterSet.Builder((ServerWorld)this.world).add(LootContextParameters.ORIGIN, Vec3d.ofCenter(this.pos));
             if(player != null){
-                luck = player.getLuck();
                 builder.luck(player.getLuck()).add(LootContextParameters.THIS_ENTITY, player);
             }
-            int quality = SunkenTreasureManager.getWeightedRandomQuality(world.getRandom(),luck);
-            Identifier lootTableId = SunkenTreasureManager.getWeightedRandomLootTableId(quality,this.world.getDimensionKey().getValue(),this.world.getRandom());
+            Identifier lootTableId = SunkenTreasureManager.getWeightedRandomLootTableId(quality,dimension,this.world.getRandom());
             LootTable lootTable = this.world.getServer().getLootManager().getLootTable(lootTableId);
             if (player instanceof ServerPlayerEntity) {
                 Criteria.PLAYER_GENERATES_CONTAINER_LOOT.trigger((ServerPlayerEntity)player, lootTableId);
@@ -53,11 +53,20 @@ public class CrateBlockEntity extends BlockEntity {
         }
     }
 
+    public void setQuality(int quality){
+        this.quality = quality;
+    }
+    public void setDimension(Identifier dimension){
+        this.dimension = dimension;
+    }
     @Override
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         if (nbt.contains(LOOT_DIMENSION_KEY, NbtElement.STRING_TYPE)) {
             this.dimension = new Identifier(nbt.getString(LOOT_DIMENSION_KEY));
+        }
+        if (nbt.contains(LOOT_QUALITY_KEY, NbtElement.INT_TYPE)) {
+            this.quality = nbt.getInt(LOOT_QUALITY_KEY);
         }
     }
 
@@ -67,5 +76,6 @@ public class CrateBlockEntity extends BlockEntity {
         if(dimension != null) {
             nbt.putString(LOOT_DIMENSION_KEY, dimension.toString());
         }
+        nbt.putInt(LOOT_QUALITY_KEY,quality);
     }
 }

@@ -1,6 +1,0 @@
-{
-    "lootTables": ["minecraft:chests/village/village_desert_house",
-                    "minecraft:chests/village/village_fisher"],
-    "quality": 0,
-    "weight": 6
-}

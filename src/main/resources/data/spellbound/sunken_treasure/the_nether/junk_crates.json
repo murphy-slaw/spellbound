@@ -1,0 +1,11 @@
+{
+    "lootTables": [
+      "spellbound:chests/nether_junk_crate"
+    ],
+    "quality": 0,
+    "weight": 6,
+  "dimensionList": [
+    "minecraft:the_nether"
+  ],
+  "isWhiteList": true
+}

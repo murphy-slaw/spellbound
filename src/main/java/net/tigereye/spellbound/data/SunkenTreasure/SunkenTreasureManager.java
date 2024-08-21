@@ -114,7 +114,6 @@ public class SunkenTreasureManager implements SimpleSynchronousResourceReloadLis
 
 
     //TODO: make Sunken Treasure entries
-    //TODO: implement Sunken Treasure enchantment for Fishing
     //TODO: experiment with Sunken Treasure on tools and weapons
 
     /*public static void registerSunkenTreasure(){

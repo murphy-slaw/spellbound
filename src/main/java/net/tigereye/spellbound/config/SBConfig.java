@@ -170,7 +170,7 @@ public class SBConfig implements ConfigData {
         public boolean ENABLED = true;
         public boolean IS_TREASURE = false;
         public boolean IS_FOR_SALE = true;
-        public int RARITY = 4;
+        public int RARITY = 2;
         public int SOFT_CAP = 3;
         public int HARD_CAP = 3;
         public int BASE_POWER = -1;
@@ -723,7 +723,7 @@ public class SBConfig implements ConfigData {
         public int POWER_RANGE = 50;
         public List<Double> QUALITY_WEIGHTS;
         public double LUCK_IMPACT_ON_QUALITY = 0.1;
-        public double CRATE_CHANCE_PER_LEVEL = 0.04;
+        public double CRATE_CHANCE_PER_LEVEL = 0.1;
 
         public SunkenTreasureConfig(){
             QUALITY_WEIGHTS = new ArrayList<>();

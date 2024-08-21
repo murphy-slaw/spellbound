@@ -1,0 +1,17 @@
+{
+    "lootTables": [
+        "minecraft:chests/village/village_butcher",
+        "minecraft:chests/village/village_fisher",
+        "minecraft:chests/village/village_shepherd",
+        "minecraft:chests/village/village_tannery",
+        "minecraft:chests/igloo_chest",
+        "minecraft:chests/shipwreck_supply"
+    ],
+    "quality": 1,
+    "weight": 6,
+    "dimensionList": [
+        "minecraft:the_end",
+        "minecraft:the_nether"
+    ],
+    "isWhiteList": false
+}

@@ -1,0 +1,13 @@
+{
+    "lootTables": [
+        "minecraft:chests/ancient_city",
+        "minecraft:chests/buried_treasure"
+    ],
+    "quality": 4,
+    "weight": 6,
+    "dimensionList": [
+        "minecraft:the_end",
+        "minecraft:the_nether"
+    ],
+    "isWhiteList": false
+}

@@ -43,6 +43,7 @@ public class PestilenceEnchantment  extends SBEnchantment {
     public boolean isTreasure() {return Spellbound.config.pestilence.IS_TREASURE;}
     @Override
     public boolean isAvailableForEnchantedBookOffer(){return Spellbound.config.pestilence.IS_FOR_SALE;}
+    //TODO: change to an on-hit effect
     @Override
     public void onTickOnceWhileEquipped(int level, ItemStack stack, LivingEntity entity){
         if(entity.getWorld().getTime() % 10 != 0){

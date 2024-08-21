@@ -1,0 +1,12 @@
+{
+    "lootTables": [
+        "minecraft:chests/ruined_portal",
+        "spellbound:chests/nether_decent_crate"
+    ],
+    "quality": 1,
+    "weight": 6,
+    "dimensionList": [
+        "minecraft:the_nether"
+    ],
+    "isWhiteList": true
+}

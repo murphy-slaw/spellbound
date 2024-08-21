@@ -1,5 +1,5 @@
 block.spellbound:
-    crate: "Crate"
+    crate: Crate
 
 death.attack:
     infidelity: "%1$s died from possessiveness."
@@ -795,3 +795,16 @@ text.autoconfig.spellbound:
         COLLECT_ANY_ROCK: COLLECT_ANY_ROCK
         YANDERE_TOOLS: YANDERE_TOOLS
         STORIED_WORLD: STORIED_WORLD
+
+crate.spellbound:
+    quality0: Contains Something Usable
+    quality1: Contains Something Nice
+    quality2: Contains Something Good
+    quality3: Contains Something Great
+    quality4: Contains Something Fantastic
+
+crate.dimension:
+    minecraft:
+        overworld: From a Familiar Place
+        the_nether: From a Fiery Place
+        the_end: From an Alien Place
