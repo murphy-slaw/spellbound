@@ -28,28 +28,12 @@ public class PestilenceEffect extends SBStatusEffect implements CustomDataStatus
 
     @Override
     public boolean isInstant() {
-        return true;
-    }
-    @Override
-    public void applyInstantEffect(@Nullable Entity source, @Nullable Entity attacker, LivingEntity target, int amplifier, double proximity) {
-        if(attacker instanceof LivingEntity le){
-        AtomicInteger longestDuration = new AtomicInteger(1);
-        target.getStatusEffects().forEach(effect -> {
-            if(effect.getEffectType().getCategory() == StatusEffectCategory.HARMFUL) {
-                int duration = (int) Math.min(effect.getDuration() * Spellbound.config.pestilence.STATUS_DURATION_FACTOR, Spellbound.config.pestilence.MAX_STATUS_DURATION);
-                if (duration > longestDuration.get()) {
-                    longestDuration.set(duration);
-                }
-            }
-        });
-        target.addStatusEffect(new OwnedStatusEffectInstance(le,PESTILENCE,
-                (int)Math.min(longestDuration.get()* Spellbound.config.pestilence.STATUS_DURATION_FACTOR, Spellbound.config.pestilence.MAX_STATUS_DURATION),amplifier));
-        }
+        return false;
     }
     @Override
     public boolean canApplyUpdateEffect(int duration, int amplifier) {
         int i = Spellbound.config.pestilence.PESTILENCE_DAMAGE_FREQUENCY >> amplifier;
-        if (i > 0) {
+        if (i > 1) {
             return duration % i == Spellbound.config.pestilence.PESTILENCE_DAMAGE_FREQUENCY_OFFSET; //offset with poison to reduce I-frame collision
         }
         return true;
@@ -57,25 +41,31 @@ public class PestilenceEffect extends SBStatusEffect implements CustomDataStatus
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         if(!(entity.getWorld().isClient)){
-            if(SBEnchantmentHelper.getSpellboundEnchantmentAmountCorrectlyWorn(SBEnchantments.PESTILENCE,entity) == 0) {
-                AtomicInteger effectLevels = new AtomicInteger();
-                Collection<StatusEffectInstance> effects = entity.getStatusEffects();
-                effects.forEach(effect -> {
-                    if (effect.getEffectType().getCategory() == StatusEffectCategory.HARMFUL && effect.getEffectType() != PESTILENCE) {
-                        effectLevels.addAndGet(Math.min(effect.getAmplifier(), Spellbound.config.pestilence.MAX_DAMAGE_LEVELS_PER_EFFECT - 1) + 1);
-                    }
-                });
-                if (effectLevels.get() > 0) {
-                    StatusEffectInstance temp = entity.getStatusEffect(PESTILENCE);
-                    if(temp instanceof OwnedStatusEffectInstance si && fillMissingPestilenceData(si,entity)) {
-                        entity.damage(SBDamageSources.of(entity.getWorld(),SBDamageSources.PESTILENCE,si.owner),
-                                Spellbound.config.pestilence.DAMAGE_PER_EFFECT * effectLevels.get());
-                    }
-                    else{
-                        entity.damage(SBDamageSources.of(entity.getWorld(),SBDamageSources.PESTILENCE),
-                                Spellbound.config.pestilence.DAMAGE_PER_EFFECT * effectLevels.get());
-                    }
+            //first, check if the status is owned by the victim. If so, they are immune.
+            LivingEntity owner = null;
+            StatusEffectInstance instance = entity.getStatusEffect(PESTILENCE);
+            if(instance instanceof OwnedStatusEffectInstance si && fillMissingPestilenceData(si,entity)) {
+                if(si.owner == entity) return;
+                else owner = si.owner;
+            }
+
+            //tally up the levels of negative effects on the target
+            AtomicInteger effectLevels = new AtomicInteger();
+            Collection<StatusEffectInstance> effects = entity.getStatusEffects();
+            effects.forEach(effect -> {
+                if (effect.getEffectType().getCategory() == StatusEffectCategory.HARMFUL && effect.getEffectType() != PESTILENCE) {
+                    effectLevels.addAndGet(Math.min(effect.getAmplifier(), Spellbound.config.pestilence.MAX_DAMAGE_LEVELS_PER_EFFECT - 1) + 1);
                 }
+            });
+
+            //do damage based on the negitive effect count.
+            if(owner != null) {
+                entity.damage(SBDamageSources.of(entity.getWorld(),SBDamageSources.PESTILENCE,owner),
+                        Spellbound.config.pestilence.DAMAGE_PER_EFFECT * effectLevels.get());
+            }
+            else{
+                entity.damage(SBDamageSources.of(entity.getWorld(),SBDamageSources.PESTILENCE),
+                        Spellbound.config.pestilence.DAMAGE_PER_EFFECT * effectLevels.get());
             }
         }
     }
