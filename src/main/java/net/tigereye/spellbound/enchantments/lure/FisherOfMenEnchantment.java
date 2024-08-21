@@ -51,6 +51,10 @@ public class FisherOfMenEnchantment extends SBEnchantment {
         return super.canAccept(other) && other != SBEnchantments.DULLNESS;
     }
     @Override
+    public int beforeDurabilityLoss(int level, ItemStack stack, ServerPlayerEntity entity, int loss){
+        return Math.min(1,loss); //slight hackjob, but fishing rods only lose more than one durability at a time when hooking entities. So we refuse to let that happen.
+    }
+    @Override
     public void onPullHookedEntity(int level, FishingBobberEntity bobber, ItemStack stack, LivingEntity user, Entity target){
         target.damage(user.getDamageSources().thrown(bobber,user),
                 Spellbound.config.fisherOfMen.BASE_DAMAGE + (Spellbound.config.fisherOfMen.DAMAGE_PER_LEVEL * level));
@@ -95,9 +99,10 @@ public class FisherOfMenEnchantment extends SBEnchantment {
             playerEntity = (PlayerEntity)user;
             luck = playerEntity.getLuck();
         }
-        LootContextParameterSet.Builder LPSBuilder = new LootContextParameterSet.Builder((ServerWorld) bobber.getWorld()).add(LootContextParameters.ORIGIN, bobber.getPos()).add(LootContextParameters.TOOL, stack).add(LootContextParameters.THIS_ENTITY, bobber).luck(EnchantmentHelper.getLuckOfTheSea(stack) + luck);
+        LootContextParameterSet.Builder LCPSBuilder = new LootContextParameterSet.Builder((ServerWorld) bobber.getWorld()).add(LootContextParameters.ORIGIN, bobber.getPos()).add(LootContextParameters.TOOL, stack).add(LootContextParameters.THIS_ENTITY, bobber).luck(EnchantmentHelper.getLuckOfTheSea(stack) + luck);
         LootTable lootTable = bobber.getWorld().getServer().getLootManager().getLootTable(LootTables.FISHING_GAMEPLAY);
-        List<ItemStack> list = lootTable.generateLoot(LPSBuilder.build(LootContextTypes.FISHING));
+        LootContextParameterSet LCPS = LCPSBuilder.build(LootContextTypes.FISHING);
+        List<ItemStack> list = lootTable.generateLoot(LCPS);
         if(playerEntity != null) {
             Criteria.FISHING_ROD_HOOKED.trigger((ServerPlayerEntity) playerEntity, stack, bobber, list);
         }

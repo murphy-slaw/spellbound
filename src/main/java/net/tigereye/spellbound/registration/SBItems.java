@@ -5,15 +5,16 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.WoodType;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.registry.Registry;
 import net.tigereye.spellbound.Spellbound;
+import net.tigereye.spellbound.blocks.CrateBlock;
+import net.tigereye.spellbound.blocks.entity.CrateBlockEntity;
 import net.tigereye.spellbound.items.BagOfRocks;
 import net.tigereye.spellbound.items.BagOfTrophies;
 
@@ -27,8 +28,13 @@ public class SBItems {
     public static final Item DIAMOND_SHARD = new Item(new Item.Settings().maxCount(64));
     public static final Item EMERALD_SHARD = new Item(new Item.Settings().maxCount(64));
     //public static final Item ANCIENT_SHARD = new Item(new Item.Settings().maxCount(64));
-    public static final Block CRATE = new Block(FabricBlockSettings.copyOf(Blocks.BARREL));
+    public static final Block CRATE = new CrateBlock(FabricBlockSettings.copyOf(Blocks.BARREL));
 
+    public static final BlockEntityType<CrateBlockEntity> CRATE_BLOCK_ENTITY = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(Spellbound.MODID, "crate_block_entity"),
+            BlockEntityType.Builder.create(CrateBlockEntity::new, CRATE).build(null)
+    );
     public static void register() {
         Registry.register(Registries.ITEM, new Identifier(Spellbound.MODID, "bag_of_rocks"), BAG_OF_ROCKS);
         Registry.register(Registries.ITEM, new Identifier(Spellbound.MODID, "bag_of_trophies"), BAG_OF_TROPHIES);
@@ -54,8 +60,6 @@ public class SBItems {
             entries.add(DIAMOND_SHARD);
             entries.add(EMERALD_SHARD);
         });
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
-            entries.add(CRATE);
-        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> entries.add(CRATE));
     }
 }

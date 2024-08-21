@@ -12,6 +12,7 @@ import net.tigereye.spellbound.enchantments.efficiency.DemolitionEnchantment;
 import net.tigereye.spellbound.enchantments.efficiency.RockCollectingEnchantment;
 import net.tigereye.spellbound.enchantments.efficiency.WidenedEnchantment;
 import net.tigereye.spellbound.enchantments.fortune.ProspectorEnchantment;
+import net.tigereye.spellbound.enchantments.fortune.SunkenTreasureEnchantment;
 import net.tigereye.spellbound.enchantments.looting.DespoilingEnchantment;
 import net.tigereye.spellbound.enchantments.looting.ScalpingEnchantment;
 import net.tigereye.spellbound.enchantments.lure.FisherOfMenEnchantment;
@@ -82,10 +83,11 @@ public class SBEnchantments {
     public static final SBEnchantment SKOTOSYNTHETIC = new SkotosyntheticEnchantment();
     public static final SBEnchantment SPIKES = new SpikesEnchantment();
     public static final SBEnchantment STORIED = new StoriedEnchantment();
+    public static final SBEnchantment SUNKEN_TREASURE = new SunkenTreasureEnchantment();
     public static final SBEnchantment TETHERING = new TetheringEnchantment();
     public static final TrophyCollectingEnchantment TROPHY_COLLECTING = new TrophyCollectingEnchantment();
-    public static final WarlikeEnchantment WARLIKE = new WarlikeEnchantment();
-    public static final WidenedEnchantment WIDENED = new WidenedEnchantment();
+    public static final SBEnchantment WARLIKE = new WarlikeEnchantment();
+    public static final SBEnchantment WIDENED = new WidenedEnchantment();
 
     public static void register(){
         register("acceleration", ACCELERATION);
@@ -126,9 +128,10 @@ public class SBEnchantments {
         register("saturated", SATURATED);
         register("scalping", SCALPING);
         register("selfish", SELFISH);
+        register("skotosynthetic", SKOTOSYNTHETIC);
         register("spikes", SPIKES);
         register("storied", STORIED);
-        register("skotosynthetic", SKOTOSYNTHETIC);
+        register("sunken_treasure", SUNKEN_TREASURE);
         register("tethering", TETHERING);
         register("trophy_collecting", TROPHY_COLLECTING);
         register("warlike", WARLIKE);

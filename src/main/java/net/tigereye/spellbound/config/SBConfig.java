@@ -721,9 +721,9 @@ public class SBConfig implements ConfigData {
         public int BASE_POWER = 6;
         public int POWER_PER_RANK = 9;
         public int POWER_RANGE = 50;
-        public boolean DETECT_ABUSE = true;
         public List<Double> QUALITY_WEIGHTS;
         public double LUCK_IMPACT_ON_QUALITY = 0.1;
+        public double CRATE_CHANCE_PER_LEVEL = 0.1;
 
         public SunkenTreasureConfig(){
             QUALITY_WEIGHTS = new ArrayList<>();

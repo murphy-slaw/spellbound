@@ -3,35 +3,16 @@ package net.tigereye.spellbound.data.SunkenTreasure;
 import com.google.common.util.concurrent.AtomicDouble;
 import com.google.gson.Gson;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.LootTables;
-import net.minecraft.loot.context.LootContextParameterSet;
-import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import net.minecraft.util.math.BlockPos;
-import net.tigereye.modifydropsapi.api.GenerateBlockLootCallbackAddLoot;
-import net.tigereye.modifydropsapi.api.GenerateBlockLootCallbackModifyLoot;
-import net.tigereye.modifydropsapi.api.GenerateLootCallbackAddLoot;
+import net.minecraft.util.math.random.Random;
 import net.tigereye.spellbound.Spellbound;
-import net.tigereye.spellbound.data.ResurfacingItemsPersistentState;
-import net.tigereye.spellbound.data.TouchedBlocksPersistentState;
-import net.tigereye.spellbound.registration.SBItems;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class SunkenTreasureManager implements SimpleSynchronousResourceReloadListener {
 
@@ -132,25 +113,11 @@ public class SunkenTreasureManager implements SimpleSynchronousResourceReloadLis
     }
 
 
-    //TODO: make crates drop items
     //TODO: make Sunken Treasure entries
     //TODO: implement Sunken Treasure enchantment for Fishing
     //TODO: experiment with Sunken Treasure on tools and weapons
-    public static boolean detectTouchedBlock(ServerWorld world, BlockPos pos){
-        if(Spellbound.config.sunkenTreasure.DETECT_ABUSE) {
-            return TouchedBlocksPersistentState.getTouchedBlocksPersistentState(world).isBlockTouched(pos);
-        }
-        return false;
-    }
-    public static boolean detectTouchedBlock(TouchedBlocksPersistentState state, BlockPos pos){
-        if(Spellbound.config.sunkenTreasure.DETECT_ABUSE) {
-            return state.isBlockTouched(pos);
-        }
-        return false;
-    }
 
-    public static void registerSunkenTreasure(){
-        //TODO: either save crate dimension or determine it's loot table when fished up
+    /*public static void registerSunkenTreasure(){
         GenerateBlockLootCallbackModifyLoot.EVENT.register((type, lootContext, loot) -> {
             if(lootContext.get(LootContextParameters.BLOCK_STATE).getBlock() == SBItems.CRATE) {
                 ItemStack tool = lootContext.get(LootContextParameters.TOOL);
@@ -171,5 +138,5 @@ public class SunkenTreasureManager implements SimpleSynchronousResourceReloadLis
             }
             return loot;
         });
-    }
+    }*/
 }

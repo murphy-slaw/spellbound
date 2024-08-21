@@ -3,6 +3,8 @@
     "values": [
       "minecraft:fortune",
       "minecraft:silk_touch",
-      "spellbound:prospector"
+      "minecraft:luck_of_the_sea",
+      "spellbound:prospector",
+      "spellbound:sunken_treasure"
     ]
   }

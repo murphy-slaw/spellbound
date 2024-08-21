@@ -1,3 +1,6 @@
+block.spellbound:
+    crate: "Crate"
+
 death.attack:
     infidelity: "%1$s died from possessiveness."
     infidelity.player: "%1$s was betrayed while fighting %2$s."
@@ -140,6 +143,9 @@ enchantment.spellbound:
 
     storied: Storied
     storied.desc: Type:Metamagic. Upgrades and adds enchantments as the item's story develops.
+    
+    sunken_treasure: Sunken Treasure
+    sunken_treasure.desc: Type:Fortune. Finds crates while fishing.
 
     tethering: Tethering
     tethering.desc: Type:Utility. Pulls target to weapon.
@@ -708,6 +714,20 @@ text.autoconfig.spellbound:
         storied.WORDS_PER_LEVEL_SECOND_DEGREE: Words Per Level Second Degree
         storied.ALLOW_NEW_PLOTHOOKS: Allow New Plothooks
         storied.RARITY_OF_NEW_PLOTHOOKS: Rarity Of New Plothooks
+        
+        sunkenTreasure: Sunken Treasure
+        sunkenTreasure.ENABLED: Enable
+        sunkenTreasure.IS_TREASURE: Is Treasure
+        sunkenTreasure.IS_FOR_SALE: Sold by Villagers
+        sunkenTreasure.RARITY: Rarity
+        sunkenTreasure.SOFT_CAP: Soft Cap
+        sunkenTreasure.HARD_CAP: Hard Cap
+        sunkenTreasure.BASE_POWER: Enchanting Base Power
+        sunkenTreasure.POWER_PER_RANK: Enchanting Power Per Rank
+        sunkenTreasure.POWER_RANGE: Enchanting Power Range
+        sunkenTreasure.QUALITY_WEIGHTS: Quality Weights
+        sunkenTreasure.LUCK_IMPACT_ON_QUALITY: Luck Impact On Quality
+        sunkenTreasure.CRATE_CHANCE_PER_LEVEL: Crate Chance Per Level
 
         tethering: Tethering
         tethering.ENABLED: Enable
