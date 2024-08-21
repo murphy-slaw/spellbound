@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "name": "spellbound:chests/random_pottery_shard",
+          "weight": 50
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "spellbound:chests/random_smithing_template",
+          "weight": 50
+        }
+      ],
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 32.0,
+        "min": 16.0
+      }
+    }
+  ]
+}

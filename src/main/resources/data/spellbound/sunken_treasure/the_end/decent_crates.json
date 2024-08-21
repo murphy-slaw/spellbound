@@ -1,0 +1,11 @@
+{
+    "lootTables": [
+        "spellbound:chests/end_decent_crate"
+    ],
+    "quality": 1,
+    "weight": 6,
+    "dimensionList": [
+        "minecraft:the_end"
+    ],
+    "isWhiteList": true
+}

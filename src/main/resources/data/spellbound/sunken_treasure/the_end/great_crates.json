@@ -1,0 +1,11 @@
+{
+    "lootTables": [
+        "spellbound:chests/end_great_crate"
+    ],
+    "quality": 3,
+    "weight": 6,
+    "dimensionList": [
+        "minecraft:the_end"
+    ],
+    "isWhiteList": true
+}

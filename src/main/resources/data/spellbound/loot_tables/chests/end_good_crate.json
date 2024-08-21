@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 6.0,
+                "min": 2.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:end_crystal",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "spellbound:chests/random_pottery_shard",
+          "weight": 80
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "spellbound:chests/random_smithing_template",
+          "weight": 10
+        }
+      ],
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 8.0,
+        "min": 3.0
+      }
+    }
+  ]
+}
