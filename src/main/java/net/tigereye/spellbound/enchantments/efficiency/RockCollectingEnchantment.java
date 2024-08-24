@@ -57,7 +57,7 @@ public class RockCollectingEnchantment extends SBEnchantment{
 
     @Override
     public void onBreakBlock(int level, ItemStack stack, World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        addRock(state,player,stack);
+        addRock(state,pos,world,player,stack);
     }
 
     @Override
@@ -109,8 +109,8 @@ public class RockCollectingEnchantment extends SBEnchantment{
         return tag.contains(blockState.getBlock().getTranslationKey());
     }
 
-    private boolean addRock(BlockState blockState, LivingEntity miner, ItemStack stack){
-        if(stack.getItem().isSuitableFor(blockState) || Spellbound.config.COLLECT_ANY_ROCK) {
+    private boolean addRock(BlockState blockState, BlockPos pos, World world,LivingEntity miner, ItemStack stack){
+        if((stack.isSuitableFor(blockState) || Spellbound.config.COLLECT_ANY_ROCK) && blockState.isFullCube(world,pos)) {
             NbtCompound tag = stack.getOrCreateSubNbt(ROCK_COLLECTOR_KEY);
             if (!hasRock(blockState, stack)) {
                 tag.putInt(UNIQUE_ROCK_COUNT_KEY, tag.getInt(UNIQUE_ROCK_COUNT_KEY) + 1);

@@ -706,6 +706,9 @@ public class SBConfig implements ConfigData {
         public int WORDS_PER_LEVEL_SECOND_DEGREE = 22;
         public boolean ALLOW_NEW_PLOTHOOKS = true;
         public int RARITY_OF_NEW_PLOTHOOKS = 2;
+        public boolean CAN_CREATE_TREASURE = true;
+        public boolean CAN_CREATE_CURSE = false;
+
     }
 
     @ConfigEntry.Category("enchantment")
@@ -767,6 +770,21 @@ public class SBConfig implements ConfigData {
         public int BASE_POWER = -19;
         public int POWER_PER_RANK = 20;
         public int POWER_RANGE = 50;
+    }
+    @ConfigEntry.Category("enchantment")
+    @ConfigEntry.Gui.CollapsibleObject
+    public UniversalConfig universal = new UniversalConfig();
+    public static class UniversalConfig {
+        public boolean ENABLED = true;
+        public boolean IS_TREASURE = false;
+        public boolean IS_FOR_SALE = true;
+        public int RARITY = 4;
+        public int SOFT_CAP = 1;
+        public int HARD_CAP = 1;
+        public int BASE_POWER = 15;
+        public int POWER_PER_RANK = 10;
+        public int POWER_RANGE = 50;
+        public float OFF_TYPE_MINING_SPEED_FACTOR = .5f;
     }
 
     @ConfigEntry.Category("enchantment")

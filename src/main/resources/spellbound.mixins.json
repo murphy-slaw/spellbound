@@ -10,6 +10,7 @@
     "EntityMixin",
     "ExperienceOrbMixin",
     "ExplosionMixin",
+    "FabricItemMixin",
     "FishingBobberEntityMixin",
     "ItemMixin",
     "ItemStackMixin",

@@ -33,6 +33,7 @@ import net.tigereye.spellbound.enchantments.utility.chestplate.WarlikeEnchantmen
 import net.tigereye.spellbound.enchantments.utility.leggings.HoverEnchantment;
 import net.tigereye.spellbound.enchantments.utility.leggings.PhaseLeapEnchantment;
 import net.tigereye.spellbound.enchantments.utility.leggings.PhaseStrafeEnchantment;
+import net.tigereye.spellbound.enchantments.utility.tool.UniversalEnchantment;
 import net.tigereye.spellbound.util.SBEnchantmentHelper;
 
 import java.util.ArrayList;
@@ -86,6 +87,7 @@ public class SBEnchantments {
     public static final SBEnchantment SUNKEN_TREASURE = new SunkenTreasureEnchantment();
     public static final SBEnchantment TETHERING = new TetheringEnchantment();
     public static final TrophyCollectingEnchantment TROPHY_COLLECTING = new TrophyCollectingEnchantment();
+    public static final SBEnchantment UNIVERSAL = new UniversalEnchantment();
     public static final SBEnchantment WARLIKE = new WarlikeEnchantment();
     public static final SBEnchantment WIDENED = new WidenedEnchantment();
 
@@ -134,6 +136,7 @@ public class SBEnchantments {
         register("sunken_treasure", SUNKEN_TREASURE);
         register("tethering", TETHERING);
         register("trophy_collecting", TROPHY_COLLECTING);
+        register("universal", UNIVERSAL);
         register("warlike", WARLIKE);
         register("widened", WIDENED);
 

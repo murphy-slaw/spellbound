@@ -374,6 +374,12 @@ public class SBEnchantmentHelper {
         }
     }
 
+    public static boolean setItemSuitability(ItemStack stack, BlockState state, Boolean suitability){
+        AtomicBoolean ab = new AtomicBoolean(suitability);
+        forEachSpellboundEnchantment((enchantment, level, itemStack) ->  ab.set(enchantment.setItemSuitability(level, itemStack, state, ab.get())), stack);
+        return ab.get();
+    }
+
     public static List<Text> addTooltip(ItemStack stack, List<Text> list, PlayerEntity player, TooltipContext context){
         forEachSpellboundEnchantment((enchantment, level, itemStack) -> {
             List<Text> tooltip = enchantment.addTooltip(level, itemStack, player, context);
@@ -383,6 +389,8 @@ public class SBEnchantmentHelper {
         }, stack);
         return list;
     }
+
+
 
     private static void forEachSpellboundEnchantment(SBEnchantmentHelper.Consumer consumer, ItemStack stack) {
         if (stack != null && !stack.isEmpty()) {

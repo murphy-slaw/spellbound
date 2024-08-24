@@ -12,6 +12,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
@@ -25,6 +26,7 @@ import net.tigereye.spellbound.registration.SBEnchantments;
 import net.tigereye.spellbound.util.SpellboundUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -104,7 +106,7 @@ public class StoriedEnchantment extends SBEnchantment {
         //Check if at least one other enchantment exists. If not, roll up a new enchantment to get started.
         String message = stack.getName().getString()+ "'s story begins.";
         if(getLevelableEnchantments(enchantments).isEmpty()) {
-            Enchantment selection = selectRandomAddableEnchantment(entity,stack,true);
+            Enchantment selection = selectRandomAddableEnchantment(entity,stack,false);
             if(selection != null){
                 message += " Gained "+ selection.getName(1).getString() +"!";
                 ((SpellboundLivingEntity)entity).spellbound$addNextTickAction(new StoriedSetEnchantmentLevelAction(stack, selection, 1));
@@ -185,13 +187,43 @@ public class StoriedEnchantment extends SBEnchantment {
     }
 
     private Enchantment selectRandomAddableEnchantment(LivingEntity entity, ItemStack stack, boolean mustBeLevelable){
-        List<EnchantmentLevelEntry> levelEntries = EnchantmentHelper.getPossibleEntries(10, stack, false);
+
+        List<Enchantment> options = new LinkedList<Enchantment>();
+        for (Enchantment enchantment : Registries.ENCHANTMENT) {
+            if ((enchantment.getMaxLevel() != 1 || !mustBeLevelable)
+                    && ((!enchantment.isCursed()) || Spellbound.config.storied.CAN_CREATE_CURSE)
+                    && ((!enchantment.isTreasure()) || Spellbound.config.storied.CAN_CREATE_TREASURE)
+                    && enchantment.isAcceptableItem(stack))
+            {
+                boolean noConflict = true;
+                for (Enchantment existingEnchantment:
+                        EnchantmentHelper.get(stack).keySet()) {
+                    if(!enchantment.canCombine(existingEnchantment)){
+                        noConflict = false;
+                        break;
+                    }
+                }
+                if(noConflict) {
+                    options.add(enchantment);
+                }
+            }
+        }
+
+        if(!options.isEmpty()){
+            Enchantment selection = options.get(entity.getRandom().nextInt(options.size()));
+            return selection;
+        }
+        return null;
+
+        /*
+        List<EnchantmentLevelEntry> levelEntries = EnchantmentHelper.getPossibleEntries(50, stack, Spellbound.config.storied.CAN_CREATE_TREASURE);
         EnchantmentLevelEntry selection = null;
         while (selection == null && !levelEntries.isEmpty()) {
             selection = levelEntries.get(entity.getRandom().nextInt(levelEntries.size()));
             //remove if the selection is the wrong level, isn't levelable, or is incompatible with the chosen item
             if (selection.level > 1
                 || (mustBeLevelable && selection.enchantment.getMaxLevel() == 1)
+                || (selection.enchantment.isCursed() && !Spellbound.config.storied.CAN_CREATE_CURSE)
                 || !selection.enchantment.isAcceptableItem(stack))
             {
                 levelEntries.remove(selection);
@@ -210,6 +242,7 @@ public class StoriedEnchantment extends SBEnchantment {
             }
         }
         return selection != null ? selection.enchantment : null;
+        */
     }
     private static class StoriedSetEnchantmentLevelAction implements NextTickAction {
 

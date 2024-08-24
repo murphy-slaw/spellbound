@@ -152,6 +152,9 @@ enchantment.spellbound:
 
     trophy_collecting: Trophy Collecting
     trophy_collecting.desc: Type:Damage. Damage grows with unique foes slain.
+
+    universal: Universal
+    universal.desc: Type:Utility. Tool is suitable for all blocks, with speed penalty for off-type blocks.
     
     warlike: Warlike
     warlike.desc: Type:Utility. Declares war upon the world, increasing difficulty.
@@ -752,6 +755,18 @@ text.autoconfig.spellbound:
         trophyCollector.BASE_POWER: Enchanting Base Power
         trophyCollector.POWER_PER_RANK: Enchanting Power Per Rank
         trophyCollector.POWER_RANGE: Enchanting Power Range
+        
+        universal: Universal
+        universal.ENABLED: Enable
+        universal.IS_TREASURE: Is Treasure
+        universal.IS_FOR_SALE: Sold by Villagers
+        universal.RARITY: Rarity
+        universal.SOFT_CAP: Soft Cap
+        universal.HARD_CAP: Hard Cap
+        universal.BASE_POWER: Enchanting Base Power
+        universal.POWER_PER_RANK: Enchanting Power Per Rank
+        universal.POWER_RANGE: Enchanting Power Range
+        universal.OFF_TYPE_MINING_SPEED_FACTOR: Off Type Mining Speed Factor
         
         warlike: Warlike
         warlike.ENABLED: Enable

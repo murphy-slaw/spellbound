@@ -226,4 +226,8 @@ public abstract class SBEnchantment extends Enchantment {
 
     public void onItemUse(int level, ItemStack itemStack, ItemUsageContext context, ActionResult result) {
     }
+
+    public boolean setItemSuitability(int level, ItemStack stack, BlockState state, Boolean suitability) {
+        return suitability;
+    }
 }
