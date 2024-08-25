@@ -3,12 +3,9 @@ package net.tigereye.spellbound.enchantments.utility.tool;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.item.MiningToolItem;
 import net.tigereye.spellbound.Spellbound;
 import net.tigereye.spellbound.enchantments.SBEnchantment;
 import net.tigereye.spellbound.util.SpellboundUtil;
@@ -40,6 +37,13 @@ public class UniversalEnchantment extends SBEnchantment{
             return miningSpeed*Spellbound.config.universal.OFF_TYPE_MINING_SPEED_FACTOR;
         }
         return miningSpeed;
+    }
+
+    public float getBaseMiningSpeed(int level, MiningToolItem miningToolItem, ItemStack itemStack, BlockState block, Float value) {
+        if(!itemStack.getItem().isSuitableFor(block)){
+            return miningToolItem.miningSpeed*Spellbound.config.universal.OFF_TYPE_MINING_SPEED_FACTOR;
+        }
+        return value;
     }
     @Override
     public boolean setItemSuitability(int level, ItemStack stack, BlockState state, Boolean suitability) {

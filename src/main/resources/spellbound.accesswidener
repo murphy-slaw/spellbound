@@ -4,3 +4,4 @@ accessible    method    net/minecraft/enchantment/EnchantmentHelper    forEachEn
 accessible    class     net/minecraft/enchantment/EnchantmentHelper$Consumer
 extendable class net/minecraft/enchantment/EnchantmentTarget
 accessible method net/minecraft/client/gui/hud/InGameHud renderOverlay (Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/util/Identifier;F)V
+accessible field net/minecraft/item/MiningToolItem miningSpeed F

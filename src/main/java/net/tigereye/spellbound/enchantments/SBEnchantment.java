@@ -16,6 +16,7 @@ import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
+import net.minecraft.item.MiningToolItem;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -229,5 +230,9 @@ public abstract class SBEnchantment extends Enchantment {
 
     public boolean setItemSuitability(int level, ItemStack stack, BlockState state, Boolean suitability) {
         return suitability;
+    }
+
+    public float getBaseMiningSpeed(int level, MiningToolItem miningToolItem, ItemStack itemStack, BlockState block, Float value) {
+        return value;
     }
 }
