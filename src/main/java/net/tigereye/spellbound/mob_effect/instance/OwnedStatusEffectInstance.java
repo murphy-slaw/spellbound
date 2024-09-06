@@ -1,20 +1,21 @@
 package net.tigereye.spellbound.mob_effect.instance;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.nbt.NbtCompound;
-import net.tigereye.spellbound.registration.SBStatusEffects;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public class OwnedStatusEffectInstance extends StatusEffectInstance{
-    public LivingEntity owner = null;
+    public Entity owner = null;
     public UUID ownerUUID = null;
 
-    public OwnedStatusEffectInstance(@Nullable LivingEntity owner, StatusEffect statusEffect) {
+    public OwnedStatusEffectInstance(@Nullable Entity owner, StatusEffect statusEffect) {
         super(statusEffect);
         this.owner = owner;
         if(owner != null) {
@@ -22,7 +23,7 @@ public class OwnedStatusEffectInstance extends StatusEffectInstance{
         }
     }
 
-    public OwnedStatusEffectInstance(@Nullable LivingEntity owner, StatusEffect statusEffect, int duration) {
+    public OwnedStatusEffectInstance(@Nullable Entity owner, StatusEffect statusEffect, int duration) {
         super(statusEffect, duration);
         this.owner = owner;
         if(owner != null) {
@@ -30,7 +31,7 @@ public class OwnedStatusEffectInstance extends StatusEffectInstance{
         }
     }
 
-    public OwnedStatusEffectInstance(@Nullable LivingEntity owner, StatusEffect statusEffect, int duration, int amplifier) {
+    public OwnedStatusEffectInstance(@Nullable Entity owner, StatusEffect statusEffect, int duration, int amplifier) {
         super(statusEffect, duration, amplifier);
         this.owner = owner;
         if(owner != null) {
@@ -38,7 +39,7 @@ public class OwnedStatusEffectInstance extends StatusEffectInstance{
         }
     }
 
-    public OwnedStatusEffectInstance(@Nullable LivingEntity owner, StatusEffect statusEffect, int duration, int amplifier, boolean ambient, boolean visible) {
+    public OwnedStatusEffectInstance(@Nullable Entity owner, StatusEffect statusEffect, int duration, int amplifier, boolean ambient, boolean visible) {
         super(statusEffect, duration, amplifier, ambient, visible);
         this.owner = owner;
         if(owner != null) {
@@ -46,7 +47,7 @@ public class OwnedStatusEffectInstance extends StatusEffectInstance{
         }
     }
 
-    public OwnedStatusEffectInstance(@Nullable LivingEntity owner, StatusEffect statusEffect, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon) {
+    public OwnedStatusEffectInstance(@Nullable Entity owner, StatusEffect statusEffect, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon) {
         super(statusEffect, duration, amplifier, ambient, showParticles, showIcon);
         this.owner = owner;
         if(owner != null) {
@@ -54,7 +55,7 @@ public class OwnedStatusEffectInstance extends StatusEffectInstance{
         }
     }
 
-    public OwnedStatusEffectInstance(@Nullable LivingEntity owner, StatusEffect statusEffect, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, StatusEffectInstance hiddenEffect, Optional<FactorCalculationData> factorCalculationData) {
+    public OwnedStatusEffectInstance(@Nullable Entity owner, StatusEffect statusEffect, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, StatusEffectInstance hiddenEffect, Optional<FactorCalculationData> factorCalculationData) {
         super(statusEffect, duration, amplifier, ambient, showParticles, showIcon, hiddenEffect, factorCalculationData);
         this.owner = owner;
         if(owner != null) {
@@ -63,7 +64,7 @@ public class OwnedStatusEffectInstance extends StatusEffectInstance{
     }
 
     public OwnedStatusEffectInstance(UUID ownerUUID, StatusEffect statusEffect, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, StatusEffectInstance hiddenEffect, Optional<FactorCalculationData> factorCalculationData) {
-        super(SBStatusEffects.PESTILENCE, duration, amplifier, ambient, showParticles, showIcon, hiddenEffect, factorCalculationData);
+        super(statusEffect, duration, amplifier, ambient, showParticles, showIcon, hiddenEffect, factorCalculationData);
         this.ownerUUID = ownerUUID;
     }
 
@@ -77,7 +78,7 @@ public class OwnedStatusEffectInstance extends StatusEffectInstance{
         }
     }
 
-    public OwnedStatusEffectInstance(@Nullable LivingEntity owner, StatusEffectInstance statusEffectInstance) {
+    public OwnedStatusEffectInstance(@Nullable Entity owner, StatusEffectInstance statusEffectInstance) {
         super(statusEffectInstance);
         this.owner = owner;
         if(owner != null) {
@@ -120,29 +121,33 @@ public class OwnedStatusEffectInstance extends StatusEffectInstance{
         return new OwnedStatusEffectInstance(ownerUUID,type,duration,amplifier,ambient,showParticles,showIcon,null,Optional.empty());
     }
 
-    /*public boolean fillMissingOwnerData(){
+    public boolean fillMissingOwnerData(ServerWorld world){
+        if(this.owner != null && this.ownerUUID != null){
+            return true;
+        }
+        if(this.owner == null && this.ownerUUID == null){
+            return false;
+        }
         if(this.owner == null){
-            if(this.ownerUUID == null) {
+            if(world == null){
                 return false;
             }
-            else{
-                ServerWorld world;
-                if(entity.world instanceof ServerWorld){
-                    world = (ServerWorld)entity.world;
-                }
-                else{
-                    return false;
-                }
-                Entity owner = world.getEntity(pestilenceInstance.ownerUUID);
-                if(owner instanceof LivingEntity lEntity) {
-                    pestilenceInstance.owner = lEntity;
-                }
-                if(pestilenceInstance.owner == null) {return false;}
-            }
+            this.owner = world.getEntity(this.ownerUUID);
+            if(this.owner == null) {return false;}
         }
-        if(pestilenceInstance.ownerUUID == null){
-            pestilenceInstance.ownerUUID = pestilenceInstance.owner.getUuid();
+        if(this.ownerUUID == null){
+            this.ownerUUID = this.owner.getUuid();
         }
         return true;
-    }*/
+    }
+
+    public boolean fillMissingOwnerData(Entity entity){
+        World world = entity.getWorld();
+        if(world instanceof ServerWorld sWorld){
+            return fillMissingOwnerData(sWorld);
+        }
+        else{
+            return fillMissingOwnerData((ServerWorld) null);
+        }
+    }
 }

@@ -24,6 +24,14 @@ public class SBStatusEffectHelper {
         return mutableFloat.floatValue();
     }
 
+    public static void onDeath(DamageSource source, LivingEntity defender){
+        SBStatusEffectHelper.forEachStatusEffect((instance,effectsToAdd,effectsToRemove) -> {
+            if(instance.getEffectType() instanceof SBStatusEffect) {
+                ((SBStatusEffect)(instance.getEffectType())).onDeath(instance, source, defender, effectsToAdd, effectsToRemove);
+            }
+        }, defender.getStatusEffects(), defender);
+    }
+
     private static void forEachStatusEffect(SBStatusEffectHelper.Consumer consumer, Collection<StatusEffectInstance> effects, LivingEntity entity) {
         List<StatusEffectInstance> effectsToAdd = new ArrayList<>();
         List<StatusEffect> effectsToRemove = new ArrayList<>();

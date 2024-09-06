@@ -15,6 +15,7 @@ import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -75,21 +76,28 @@ public class SpellboundUtil {
         return feetBlocked || headBlocked;
     }
 
-    public static void psudeoExplosion(LivingEntity source, boolean excludeSource, Vec3d position, float strength, float range, float force){
+    public static void psudeoExplosion(Entity source, boolean excludeSource, Vec3d position, float strength, float radius, float force, float fullDamageRadius){
+        if(radius == 0){
+            return;
+        }
         List<LivingEntity> entityList = source.getWorld().getNonSpectatingEntities(LivingEntity.class,
-                new Box(position.x+ range,position.y+range,position.z+range,
-                        position.x-range,position.y-range,position.z-range));
+                new Box(position.x+ radius,position.y+radius,position.z+radius,
+                        position.x-radius,position.y-radius,position.z-radius));
         for (LivingEntity target:
                 entityList) {
             if(target != source || !excludeSource) {
                 Vec3d forceVec = target.getPos().subtract(position);
                 float distance = (float) forceVec.length();
-                if(distance < range) {
-                    float proximityRatio = (range-distance) / range;
-                    target.damage(source.getDamageSources().create(DamageTypes.EXPLOSION,source), strength * proximityRatio);
+                if(distance < radius) {
+                    float proximityRatio = 1;
+                    if (distance > fullDamageRadius){
+                        proximityRatio = 1f - ((distance - fullDamageRadius) / (radius-fullDamageRadius));
+                    }
+                    float exposure = Explosion.getExposure(position,target);
+                    target.damage(source.getDamageSources().create(DamageTypes.EXPLOSION,source), strength * proximityRatio * exposure);
 
                     forceVec = forceVec.multiply(1,0,1).normalize().add(0,.1,0);
-                    forceVec = forceVec.multiply(force * proximityRatio * Math.max(0, 1 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE)));
+                    forceVec = forceVec.multiply(force * proximityRatio * exposure * Math.max(0, 1 - target.getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE)));
 
                     target.addVelocity(forceVec.x, forceVec.y, forceVec.z);
                     target.velocityModified = true;
@@ -98,8 +106,8 @@ public class SpellboundUtil {
         }
 
         if(Spellbound.config.DESTRUCTIVE_SHOCKWAVES && source.getWorld() instanceof ServerWorld){
-            int blockRange = Math.round(range)+2;
-            float squaredRange = range*range;
+            int blockRange = Math.round(radius)+2;
+            float squaredRange = radius*radius;
             float squaredStrength = strength*strength;
             BlockPos lowerCorner = source.getBlockPos().add(1-blockRange,1-blockRange,1-blockRange);
             int size = (blockRange*2)-1;
@@ -114,7 +122,7 @@ public class SpellboundUtil {
                     for(int x = 0; x < size; x++){
                         for(int z = 0; z < size; z++){
                             target = lowerCorner.add(x,y,z);
-                            double distanceFromEdge = range-Math.sqrt(target.getSquaredDistance(source.getBlockPos()));
+                            double distanceFromEdge = radius-Math.sqrt(target.getSquaredDistance(source.getBlockPos()));
                             double squaredDistanceFromEdge = distanceFromEdge*distanceFromEdge;
                             targetBlock = world.getBlockState(target);
                             block = targetBlock.getBlock();
@@ -131,7 +139,7 @@ public class SpellboundUtil {
                                             .add(LootContextParameters.TOOL, ItemStack.EMPTY)
                                             .addOptional(LootContextParameters.BLOCK_ENTITY, blockEntity)
                                             .addOptional(LootContextParameters.THIS_ENTITY, source)
-                                            .add(LootContextParameters.EXPLOSION_RADIUS, strength/range);
+                                            .add(LootContextParameters.EXPLOSION_RADIUS, strength/radius);
                                     targetBlock.getDroppedStacks(builder).forEach((stack) -> tryMergeStack(objectArrayList, stack, blockPos2));
                                 }
 
@@ -149,9 +157,21 @@ public class SpellboundUtil {
             }
         }
 
+        //draw explosion particles
+
+        if (strength < 4.0f) {
+            source.getWorld().addParticle(ParticleTypes.EXPLOSION, position.x, position.y, position.z, 1.0, 0.0, 0.0);
+        } else {
+            source.getWorld().addParticle(ParticleTypes.EXPLOSION_EMITTER, position.x, position.y, position.z, 1.0, 0.0, 0.0);
+        }
+
         source.getEntityWorld().playSound(null, position.getX(), position.getY(), position.getZ(),
                 SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS,
-                4.0F, (1.0F + (source.getWorld().random.nextFloat() - source.getWorld().random.nextFloat()) * 0.2F) * 0.7F);
+                (float) Math.min(4,Math.sqrt(strength)), (1.0F + (source.getWorld().random.nextFloat() - source.getWorld().random.nextFloat()) * 0.2F) * 0.7F);
+    }
+
+    public static void psudeoExplosion(Entity source, boolean excludeSource, Vec3d position, float strength, float range, float force){
+        psudeoExplosion(source, excludeSource, position, strength, range, force, 0);
     }
 
     private static void tryMergeStack(ObjectArrayList<Pair<ItemStack, BlockPos>> stacks, ItemStack stack, BlockPos pos) {

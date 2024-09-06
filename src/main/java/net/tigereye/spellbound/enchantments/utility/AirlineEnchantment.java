@@ -8,7 +8,7 @@ import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
 import net.tigereye.spellbound.Spellbound;
 import net.tigereye.spellbound.enchantments.SBEnchantment;
-import net.tigereye.spellbound.mob_effect.instance.TetheredInstance;
+import net.tigereye.spellbound.mob_effect.instance.OwnedStatusEffectInstance;
 import net.tigereye.spellbound.registration.SBEnchantmentTargets;
 import net.tigereye.spellbound.registration.SBStatusEffects;
 import net.tigereye.spellbound.util.SpellboundUtil;
@@ -52,6 +52,6 @@ public class AirlineEnchantment extends SBEnchantment{
 
     private void tetherTarget(int level, Entity anchor, LivingEntity target){
         target.removeStatusEffect(SBStatusEffects.TETHERED);
-        target.addStatusEffect(new TetheredInstance(anchor, Spellbound.config.airline.BASE_DURATION + (Spellbound.config.airline.DURATION_PER_RANK*level), 0));
+        target.addStatusEffect(new OwnedStatusEffectInstance(anchor, SBStatusEffects.TETHERED, Spellbound.config.airline.BASE_DURATION + (Spellbound.config.airline.DURATION_PER_RANK*level), 0));
     }
 }

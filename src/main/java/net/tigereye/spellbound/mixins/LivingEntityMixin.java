@@ -131,6 +131,7 @@ public abstract class LivingEntityMixin extends Entity implements SpellboundLivi
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;onKilledBy(Lnet/minecraft/entity/LivingEntity;)V"), method = "onDeath")
     public void spellboundLivingEntityOnDeathMixin(DamageSource source, CallbackInfo info){
         SBEnchantmentHelper.onDeath(source,(LivingEntity) (Object) this);
+        SBStatusEffectHelper.onDeath(source,(LivingEntity) (Object) this);
     }
 
     @Inject(method = "getEquipmentChanges", at = @At(value = "INVOKE", target = "Ljava/util/Map;put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"), locals = LocalCapture.CAPTURE_FAILHARD)

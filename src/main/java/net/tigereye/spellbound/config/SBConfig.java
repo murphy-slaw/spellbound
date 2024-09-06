@@ -492,13 +492,18 @@ public class SBConfig implements ConfigData {
         public boolean ENABLED = true;
         public boolean IS_TREASURE = false;
         public boolean IS_FOR_SALE = true;
-        public int RARITY = 3;
+        public int RARITY = 2;
         public int SOFT_CAP = 5;
-        public int HARD_CAP = 8;
+        public int HARD_CAP = 5;
         public int BASE_POWER = 5;
         public int POWER_PER_RANK = 5;
         public int POWER_RANGE = 20;
         public int DURATION = 60;
+        public boolean SAFE_FOR_USER = true;
+        public float SHOCKWAVE_FORCE_SCALE = .5f;
+        public float SHOCKWAVE_DAMAGE_SCALE = 1.5f;
+        public float SHOCKWAVE_RADIUS_SCALE = 2f;
+        public float SHOCKWAVE_FULL_DAMAGE_RADIUS = .2f;
     }
 
     @ConfigEntry.Category("enchantment")
@@ -526,7 +531,7 @@ public class SBConfig implements ConfigData {
         public boolean ENABLED = true;
         public boolean IS_TREASURE = false;
         public boolean IS_FOR_SALE = true;
-        public int RARITY = 3;
+        public int RARITY = 2;
         public int SOFT_CAP = 3;
         public int HARD_CAP = 3;
         public int BASE_POWER = -15;

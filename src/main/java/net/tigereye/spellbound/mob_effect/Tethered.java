@@ -8,7 +8,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
 import net.tigereye.spellbound.Spellbound;
-import net.tigereye.spellbound.mob_effect.instance.TetheredInstance;
+import net.tigereye.spellbound.mob_effect.instance.OwnedStatusEffectInstance;
 import net.tigereye.spellbound.registration.SBStatusEffects;
 
 public class Tethered extends SBStatusEffect implements CustomDataStatusEffect{
@@ -24,21 +24,21 @@ public class Tethered extends SBStatusEffect implements CustomDataStatusEffect{
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         //Spellbound.LOGGER.info("Dragging Target");
         StatusEffectInstance temp = entity.getStatusEffect(SBStatusEffects.TETHERED);
-        if(temp instanceof TetheredInstance ti){
+        if(temp instanceof OwnedStatusEffectInstance ti){
             //attempt to get any missing data. Remove the debuff if it fails because we can't use it.
-            if(!fillMissingTetheredData(ti,entity)){
+            if(!ti.fillMissingOwnerData(entity)){
                 entity.removeStatusEffect(SBStatusEffects.TETHERED);
                 return;
             }
             //if the anchor has been removed from the world, remove the tether
-            if(ti.anchor.isRemoved()){
+            if(ti.owner.isRemoved()){
                 entity.removeStatusEffect(SBStatusEffects.TETHERED);
                 return;
             }
             //otherwise, drag them in if they are past the leash
             entity.fallDistance = 0;
 
-            Vec3d pullVector = new Vec3d(ti.anchor.getX() - entity.getX(), ti.anchor.getY() - entity.getY(), ti.anchor.getZ() - entity.getZ());
+            Vec3d pullVector = new Vec3d(ti.owner.getX() - entity.getX(), ti.owner.getY() - entity.getY(), ti.owner.getZ() - entity.getZ());
 
             if(!(entity.getWorld().isClient)) {
                 if (pullVector.length() >= Spellbound.config.tethering.LEASH_LENGTH) {
@@ -50,7 +50,7 @@ public class Tethered extends SBStatusEffect implements CustomDataStatusEffect{
                     entity.velocityModified = true;
                 }
             }
-            //draw particals between entity and anchor
+            //draw particles between entity and anchor
 
             int sparks = entity.getRandom().nextInt(Math.min(20,Math.max(3,(int)(pullVector.lengthSquared()/5))));
             Vec3d basePosition = entity.getPos();
@@ -68,29 +68,6 @@ public class Tethered extends SBStatusEffect implements CustomDataStatusEffect{
 
     @Override
     public StatusEffectInstance getInstanceFromTag(NbtCompound tag) {
-        return TetheredInstance.customFromNbt(tag);
-    }
-
-    public boolean fillMissingTetheredData(TetheredInstance tetheredInstance, LivingEntity entity){
-        if(tetheredInstance.anchor == null){
-            if(tetheredInstance.tetherUUID == null) {
-                return false;
-            }
-            else{
-                ServerWorld world;
-                if(entity.getWorld() instanceof ServerWorld){
-                    world = (ServerWorld)entity.getWorld();
-                }
-                else{
-                    return false;
-                }
-                tetheredInstance.anchor = world.getEntity(tetheredInstance.tetherUUID);
-                if(tetheredInstance.anchor == null) {return false;}
-            }
-        }
-        if(tetheredInstance.tetherUUID == null){
-            tetheredInstance.tetherUUID = tetheredInstance.anchor.getUuid();
-        }
-        return true;
+        return OwnedStatusEffectInstance.customFromNbt(this, tag);
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.tigereye.spellbound.Spellbound;
 import net.tigereye.spellbound.enchantments.SBEnchantment;
+import net.tigereye.spellbound.mob_effect.instance.OwnedStatusEffectInstance;
 import net.tigereye.spellbound.registration.SBEnchantmentTargets;
 import net.tigereye.spellbound.registration.SBStatusEffects;
 import net.tigereye.spellbound.util.SpellboundUtil;
@@ -43,19 +44,23 @@ public class PrimingEnchantment extends SBEnchantment{
         if(user.getWorld().isClient()){
             return;
         }
-        if(target instanceof LivingEntity) {
+        if(target instanceof LivingEntity lTarget) {
             //minecraft's on target damaged trigger is flawed and calls items in player's main hands twice. Check for that.
             if (lastUse.getOrDefault(user.getUuid(),0L) != user.getWorld().getTime()) {
                 lastUse.put(user.getUuid(),user.getWorld().getTime());
                 int effectLevel = 0;
-                StatusEffectInstance primedInstance = ((LivingEntity) target).getStatusEffect(SBStatusEffects.PRIMED);
+                StatusEffectInstance primedInstance = lTarget.getStatusEffect(SBStatusEffects.PRIMED);
                 if (primedInstance != null) {
-                    effectLevel = Math.min(primedInstance.getAmplifier() + 1, level - 1);
+                    int existingLevel = primedInstance.getAmplifier();
+                    if(existingLevel >= level) {
+                        return;
+                    }
+                    else{
+                        effectLevel = existingLevel+1;
+                    }
                 }
-                if (Spellbound.DEBUG) {
-                    Spellbound.LOGGER.info("Applying Primed at magnitude " + effectLevel);
-                }
-                ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(SBStatusEffects.PRIMED, Spellbound.config.priming.DURATION, effectLevel));
+                Spellbound.LOGGER.debug("Applying Primed at magnitude " + effectLevel);
+                lTarget.addStatusEffect(new OwnedStatusEffectInstance(user, SBStatusEffects.PRIMED, Spellbound.config.priming.DURATION, effectLevel));
             }
         }
         super.onTargetDamaged(user, target, level);

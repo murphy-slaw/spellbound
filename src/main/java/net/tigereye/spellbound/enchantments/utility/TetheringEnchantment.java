@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.tigereye.spellbound.Spellbound;
 import net.tigereye.spellbound.enchantments.SBEnchantment;
-import net.tigereye.spellbound.mob_effect.instance.TetheredInstance;
+import net.tigereye.spellbound.mob_effect.instance.OwnedStatusEffectInstance;
 import net.tigereye.spellbound.registration.SBStatusEffects;
 import net.tigereye.spellbound.util.SpellboundUtil;
 
@@ -65,7 +65,7 @@ public class TetheringEnchantment extends SBEnchantment {
 
     private void tetherTarget(int level, Entity anchor, LivingEntity target){
         target.removeStatusEffect(SBStatusEffects.TETHERED);
-        target.addStatusEffect(new TetheredInstance(anchor, 20+(20*level), 0));
+        target.addStatusEffect(new OwnedStatusEffectInstance(anchor, SBStatusEffects.TETHERED, 20+(20*level), 0));
     }
 
     //doesn't support bows/crossbows because arrows usually dont survive impact

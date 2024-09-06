@@ -557,6 +557,11 @@ text.autoconfig.spellbound:
         priming.POWER_PER_RANK: Enchanting Power Per Rank
         priming.POWER_RANGE: Enchanting Power Range
         priming.DURATION: Duration
+        priming.SAFE_FOR_USER: Safe For User
+        priming.SHOCKWAVE_FORCE_SCALE: Shockwave Force Scale
+        priming.SHOCKWAVE_DAMAGE_SCALE: Shockwave Damage Scale
+        priming.SHOCKWAVE_RADIUS_SCALE: Shockwave Radius Scale
+        priming.SHOCKWAVE_FULL_DAMAGE_RADIUS: Shockwave Full Damage Radius
         
         prospector: Prospector
         prospector.ENABLED: Enable
