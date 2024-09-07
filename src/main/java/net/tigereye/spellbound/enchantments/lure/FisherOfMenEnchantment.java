@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class FisherOfMenEnchantment extends SBEnchantment {
+    static int PRIORITY = 1;
 
     public FisherOfMenEnchantment() {
         super(SpellboundUtil.rarityLookup(Spellbound.config.fisherOfMen.RARITY), EnchantmentTarget.FISHING_ROD, new EquipmentSlot[] {EquipmentSlot.MAINHAND},true);
@@ -42,6 +43,8 @@ public class FisherOfMenEnchantment extends SBEnchantment {
     public int getPowerPerRank(){return Spellbound.config.fisherOfMen.POWER_PER_RANK;}
     @Override
     public int getPowerRange(){return Spellbound.config.fisherOfMen.POWER_RANGE;}
+    @Override
+    public int getPriority(){return PRIORITY;}
     @Override
     public boolean isTreasure() {return Spellbound.config.fisherOfMen.IS_TREASURE;}
     @Override

@@ -42,6 +42,8 @@ public abstract class SBEnchantment extends Enchantment {
     public abstract int getPowerPerRank();
     public abstract int getPowerRange();
 
+    public int getPriority(){return 0;}
+
     @Override
     public int getMinPower(int level) {
         int power = (getPowerPerRank() * level) + getBasePower();

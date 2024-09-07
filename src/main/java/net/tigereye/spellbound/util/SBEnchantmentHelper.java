@@ -400,17 +400,18 @@ public class SBEnchantmentHelper {
     private static void forEachSpellboundEnchantment(SBEnchantmentHelper.Consumer consumer, ItemStack stack) {
         if (stack != null && !stack.isEmpty()) {
             NbtList NbtList = stack.getEnchantments();
-
+            ArrayList<Pair<SBEnchantment,Integer>> enchantmentsList = new ArrayList<>();
             for(int i = 0; i < NbtList.size(); ++i) {
                 String string = NbtList.getCompound(i).getString("id");
                 int j = NbtList.getCompound(i).getInt("lvl");
                 Registries.ENCHANTMENT.getOrEmpty(Identifier.tryParse(string)).ifPresent((enchantment) -> {
-                    if(enchantment instanceof SBEnchantment) {
-                        consumer.accept((SBEnchantment)enchantment, j, stack);
+                    if(enchantment instanceof SBEnchantment sbEnchantment) {
+                        enchantmentsList.add(new Pair<>(sbEnchantment,j));
                     }
                 });
             }
-
+            enchantmentsList.sort((o1, o2) -> -Integer.compare(o1.getLeft().getPriority(), o2.getLeft().getPriority()));
+            enchantmentsList.forEach((enchantment) -> consumer.accept(enchantment.getLeft(), enchantment.getRight(), stack));
         }
     }
     private static void forEachSpellboundEnchantment(SBEnchantmentHelper.Consumer consumer, Iterable<ItemStack> stacks) {
