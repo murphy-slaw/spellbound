@@ -12,6 +12,7 @@ import net.tigereye.spellbound.util.SpellboundUtil;
 
 
 public class UniversalEnchantment extends SBEnchantment{
+    static int PRIORITY = 1;
     public UniversalEnchantment() {
         super(SpellboundUtil.rarityLookup(Spellbound.config.universal.RARITY), EnchantmentTarget.DIGGER, new EquipmentSlot[] {EquipmentSlot.MAINHAND},true);
     }
@@ -28,22 +29,17 @@ public class UniversalEnchantment extends SBEnchantment{
     @Override
     public int getPowerRange(){return Spellbound.config.universal.POWER_RANGE;}
     @Override
+    public int getPriority(){return PRIORITY;}
+    @Override
     public boolean isTreasure() {return Spellbound.config.universal.IS_TREASURE;}
     @Override
     public boolean isAvailableForEnchantedBookOffer(){return Spellbound.config.universal.IS_FOR_SALE;}
     @Override
     public float getMiningSpeed(int level, PlayerEntity playerEntity, ItemStack stack, BlockState block, float miningSpeed) {
-        if(!stack.getItem().isSuitableFor(block)){
-            return miningSpeed*Spellbound.config.universal.OFF_TYPE_MINING_SPEED_FACTOR;
+        if(!stack.getItem().isSuitableFor(block) && stack.getItem() instanceof MiningToolItem mtItem){
+            miningSpeed = mtItem.miningSpeed*Spellbound.config.universal.OFF_TYPE_MINING_SPEED_FACTOR;
         }
         return miningSpeed;
-    }
-
-    public float getBaseMiningSpeed(int level, MiningToolItem miningToolItem, ItemStack itemStack, BlockState block, Float value) {
-        if(!itemStack.getItem().isSuitableFor(block)){
-            return miningToolItem.miningSpeed*Spellbound.config.universal.OFF_TYPE_MINING_SPEED_FACTOR;
-        }
-        return value;
     }
     @Override
     public boolean setItemSuitability(int level, ItemStack stack, BlockState state, Boolean suitability) {

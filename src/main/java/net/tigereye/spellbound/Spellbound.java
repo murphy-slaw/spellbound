@@ -6,6 +6,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resource.ResourceType;
 import net.tigereye.spellbound.config.SBConfig;
+import net.tigereye.spellbound.data.Chilled.ChilledManager;
 import net.tigereye.spellbound.data.Prospector.ProspectorManager;
 import net.tigereye.spellbound.data.SunkenTreasure.SunkenTreasureManager;
 import net.tigereye.spellbound.registration.*;
@@ -26,6 +27,8 @@ public class Spellbound implements ModInitializer{
 
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ProspectorManager());
         ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new SunkenTreasureManager());
+        ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new ChilledManager());
+
 
         SBItems.register();
         SBEnchantments.register();

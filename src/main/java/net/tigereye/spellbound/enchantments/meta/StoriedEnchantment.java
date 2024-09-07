@@ -4,7 +4,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -91,7 +90,7 @@ public class StoriedEnchantment extends SBEnchantment {
         float currentXP = xp + nbt.getFloat(STORIED_XP_KEY);
         double xpToNextChapter = getXPToNextChapter(currentChapter);
         while(currentXP > xpToNextChapter){
-            currentXP -= xpToNextChapter;
+            currentXP -= (float) xpToNextChapter;
             ++currentChapter;
             xpToNextChapter = getXPToNextChapter(currentChapter);
             advanceStory(owner,stack,EnchantmentHelper.get(stack));
@@ -188,9 +187,10 @@ public class StoriedEnchantment extends SBEnchantment {
 
     private Enchantment selectRandomAddableEnchantment(LivingEntity entity, ItemStack stack, boolean mustBeLevelable){
 
-        List<Enchantment> options = new LinkedList<Enchantment>();
+        List<Enchantment> options = new LinkedList<>();
         for (Enchantment enchantment : Registries.ENCHANTMENT) {
             if ((enchantment.getMaxLevel() != 1 || !mustBeLevelable)
+                    && enchantment.getMaxLevel() > 0 //to prevent disabled enchantments from being rolled
                     && ((!enchantment.isCursed()) || Spellbound.config.storied.CAN_CREATE_CURSE)
                     && ((!enchantment.isTreasure()) || Spellbound.config.storied.CAN_CREATE_TREASURE)
                     && enchantment.isAcceptableItem(stack))
@@ -210,8 +210,7 @@ public class StoriedEnchantment extends SBEnchantment {
         }
 
         if(!options.isEmpty()){
-            Enchantment selection = options.get(entity.getRandom().nextInt(options.size()));
-            return selection;
+            return options.get(entity.getRandom().nextInt(options.size()));
         }
         return null;
 

@@ -33,6 +33,7 @@ import net.tigereye.spellbound.enchantments.utility.chestplate.WarlikeEnchantmen
 import net.tigereye.spellbound.enchantments.utility.leggings.HoverEnchantment;
 import net.tigereye.spellbound.enchantments.utility.leggings.PhaseLeapEnchantment;
 import net.tigereye.spellbound.enchantments.utility.leggings.PhaseStrafeEnchantment;
+import net.tigereye.spellbound.enchantments.utility.tool.ChilledEnchantment;
 import net.tigereye.spellbound.enchantments.utility.tool.UniversalEnchantment;
 import net.tigereye.spellbound.util.SBEnchantmentHelper;
 
@@ -48,6 +49,7 @@ public class SBEnchantments {
     public static final SBEnchantment ATTRACTIVE = new AttractiveEnchantment();
     public static final SBEnchantment BUFFERED = new BufferedEnchantment();
     public static final SBEnchantment CAVE_IN = new CaveInEnchantment();
+    public static final SBEnchantment CHILLED = new ChilledEnchantment();
     public static final SBEnchantment DEATH_WISH = new DeathWishEnchantment();
     public static final SBEnchantment DEMOLITION = new DemolitionEnchantment();
     public static final SBEnchantment DESPOILING = new DespoilingEnchantment();
@@ -97,6 +99,7 @@ public class SBEnchantments {
         register("attractive", ATTRACTIVE);
         register("buffered", BUFFERED);
         register("cave_in", CAVE_IN);
+        register("chilled", CHILLED);
         register("death_wish", DEATH_WISH);
         register("demolition", DEMOLITION);
         register("despoiling", DESPOILING);

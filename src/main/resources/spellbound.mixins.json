@@ -16,7 +16,6 @@
     "ItemStackMixin",
     "LivingEntityMixin",
     "LocalDifficultyMixin",
-    "MiningToolItemMixin",
     "MobEntityMixin",
     "PersistentProjectileEntityMixin",
     "PlayerEntityMixin",

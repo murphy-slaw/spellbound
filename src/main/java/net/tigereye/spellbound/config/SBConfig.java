@@ -99,6 +99,21 @@ public class SBConfig implements ConfigData {
 
     @ConfigEntry.Category("enchantment")
     @ConfigEntry.Gui.CollapsibleObject
+    public ChilledConfig chilled = new ChilledConfig();
+    public static class ChilledConfig {
+        public boolean ENABLED = true;
+        public boolean IS_TREASURE = false;
+        public boolean IS_FOR_SALE = true;
+        public int RARITY = 4;
+        public int SOFT_CAP = 1;
+        public int HARD_CAP = 1;
+        public int BASE_POWER = 15;
+        public int POWER_PER_RANK = 10;
+        public int POWER_RANGE = 50;
+    }
+
+    @ConfigEntry.Category("enchantment")
+    @ConfigEntry.Gui.CollapsibleObject
     public DeathWishConfig deathWish = new DeathWishConfig();
     public static class DeathWishConfig {
         public boolean ENABLED = true;

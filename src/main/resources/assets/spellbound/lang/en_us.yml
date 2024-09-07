@@ -36,6 +36,9 @@ enchantment.spellbound:
     cave_in: Cave-In
     cave_in.desc: Type:Utility. Shot blocks fall to the ground
 
+    chilled: Chilled
+    chilled.desc: Type:Utility. Freeze adjacent blocks on break
+
     death_wish: Death Wish
     death_wish.desc: Type:Protection. Provides no protection. Greatly increases damage.
 
@@ -249,6 +252,17 @@ text.autoconfig.spellbound:
         caveIn.POWER_PER_RANK: Enchanting Power Per Rank
         caveIn.POWER_RANGE: Enchanting Power Range
         caveIn.MAX_BLAST_RES: Max Blast Resistance
+        
+        chilled: Chilled
+        chilled.ENABLED: Enable
+        chilled.IS_TREASURE: Is Treasure
+        chilled.IS_FOR_SALE: Sold by Villagers
+        chilled.RARITY: Rarity
+        chilled.SOFT_CAP: Soft Cap
+        chilled.HARD_CAP: Hard Cap
+        chilled.BASE_POWER: Enchanting Base Power
+        chilled.POWER_PER_RANK: Enchanting Power Per Rank
+        chilled.POWER_RANGE: Enchanting Power Range
 
         deathWish: Death Wish
         deathWish.ENABLED: Enable
